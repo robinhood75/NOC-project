@@ -1,0 +1,122 @@
+{
+    "0.001": {
+        "n_percolation": 0,
+        "avg_infected": 1.8500000000000003
+    },
+    "0.0016551724137931034": {
+        "n_percolation": 0,
+        "avg_infected": 2.8499999999999996
+    },
+    "0.002310344827586207": {
+        "n_percolation": 0,
+        "avg_infected": 3.1499999999999995
+    },
+    "0.00296551724137931": {
+        "n_percolation": 0,
+        "avg_infected": 12.849999999999998
+    },
+    "0.0036206896551724136": {
+        "n_percolation": 0,
+        "avg_infected": 15.049999999999999
+    },
+    "0.004275862068965517": {
+        "n_percolation": 0,
+        "avg_infected": 5.750000000000002
+    },
+    "0.00493103448275862": {
+        "n_percolation": 0,
+        "avg_infected": 4.15
+    },
+    "0.005586206896551724": {
+        "n_percolation": 0,
+        "avg_infected": 8.899999999999999
+    },
+    "0.006241379310344827": {
+        "n_percolation": 0,
+        "avg_infected": 12.849999999999996
+    },
+    "0.00689655172413793": {
+        "n_percolation": 0,
+        "avg_infected": 7.65
+    },
+    "0.007551724137931034": {
+        "n_percolation": 0,
+        "avg_infected": 10.45
+    },
+    "0.008206896551724137": {
+        "n_percolation": 0,
+        "avg_infected": 97.4
+    },
+    "0.00886206896551724": {
+        "n_percolation": 0,
+        "avg_infected": 29.95
+    },
+    "0.009517241379310343": {
+        "n_percolation": 0,
+        "avg_infected": 49.79999999999999
+    },
+    "0.01017241379310345": {
+        "n_percolation": 0,
+        "avg_infected": 48.75
+    },
+    "0.010827586206896552": {
+        "n_percolation": 0,
+        "avg_infected": 55.6
+    },
+    "0.011482758620689655": {
+        "n_percolation": 0,
+        "avg_infected": 45.85
+    },
+    "0.012137931034482758": {
+        "n_percolation": 0,
+        "avg_infected": 110.9
+    },
+    "0.012793103448275861": {
+        "n_percolation": 0,
+        "avg_infected": 100.19999999999999
+    },
+    "0.013448275862068964": {
+        "n_percolation": 0,
+        "avg_infected": 79.1
+    },
+    "0.014103448275862067": {
+        "n_percolation": 0,
+        "avg_infected": 68.4
+    },
+    "0.01475862068965517": {
+        "n_percolation": 0,
+        "avg_infected": 109.95
+    },
+    "0.015413793103448276": {
+        "n_percolation": 0,
+        "avg_infected": 36.7
+    },
+    "0.01606896551724138": {
+        "n_percolation": 0,
+        "avg_infected": 15.4
+    },
+    "0.016724137931034482": {
+        "n_percolation": 0,
+        "avg_infected": 77.49999999999999
+    },
+    "0.017379310344827585": {
+        "n_percolation": 1,
+        "avg_infected": 80.89999999999999
+    },
+    "0.018034482758620688": {
+        "n_percolation": 1,
+        "avg_infected": 55.599999999999994
+    },
+    "0.01868965517241379": {
+        "n_percolation": 0,
+        "avg_infected": 17.2
+    },
+    "0.019344827586206897": {
+        "n_percolation": 2,
+        "avg_infected": 134.8
+    },
+    "0.02": {
+        "n_percolation": 2,
+        "avg_infected": 184.0
+    }
+}
