@@ -1,4 +1,5 @@
 import json
+import os
 from epidemics import Epidemic
 import numpy as np
 import utils
@@ -65,7 +66,7 @@ def get_percolation_stats(static_graph_,
                           v_init_,
                           p_array_,
                           n_runs=30,
-                          save_to="results_square_lattice_26.json",
+                          save_to="results.json",
                           dt=None,
                           max_t=None,
                           pc_=None,
@@ -95,15 +96,16 @@ def get_percolation_stats(static_graph_,
             d["avg_infected"] += n_infected_towns / n_runs
             print_estimate_p_th = None
 
-    with open(save_to, 'w') as f:
+    with open(os.path.join("results", save_to), 'w') as f:
         json.dump(results, f, indent=4)
 
 
 if __name__ == '__main__':
     # Get static graph
-    dim = 26
-    static_graph, pc = utils.get_graph(graph_name="square_lattice", dim=dim)
-    v_init = (int((dim - 1) / 2), int((dim - 1) / 2))
+    dim = 1000
+    static_graph, pc = utils.get_graph(graph_name="cayley_tree", dim=dim, k=3)
+    v_init = 0
 
     p_array = np.linspace(0.001, 0.02, 30)
-    get_percolation_stats(static_graph, v_init, p_array, time_limit=240, dt=0.002, max_t=5e2, n_runs=20)
+    get_percolation_stats(static_graph, v_init, p_array,
+                          time_limit=240, dt=0.002, max_t=5e2, n_runs=20, pc_=pc, save_to=r"cayley_tree")
