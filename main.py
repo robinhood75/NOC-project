@@ -8,13 +8,20 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dim', type=int, help='Dim of the graph')
+parser.add_argument('--dim', type=int, help='Dim of the graph. WARNING: size of a side when --graph="square_lattice", '
+                                            'number of nodes otherwise')
 parser.add_argument('--model', type=str, help='"SIR", "SIS" or "SIRS"', default='SIR')
-parser.add_argument('--graph', type=str, help='"square_lattice", "1d_array", "cayley_tree.json"',
+parser.add_argument('--graph', type=str, help='"square_lattice", "1d_array", "cayley_tree"',
                     default="square_lattice")
 parser.add_argument('--save_to', type=str, help='Save results in this file (json)', default="results.json")
 parser.add_argument('--k', type=int, help='Parameter k if graph is a Cayley tree', default=None)
+parser.add_argument('--gamma', type=float, help='gamma for SIRS model', default=0.)
 args = parser.parse_args()
+
+
+def validate(args_):
+    # TODO
+    raise NotImplementedError
 
 
 def run(static_graph_,
@@ -28,7 +35,8 @@ def run(static_graph_,
         time_limit=None,
         dt=None,
         max_t=None,
-        model='SIR'):
+        model='SIR',
+        gamma=0.):
     """
     Runs the simulation until it reaches max_t or every town gets infected.
 
@@ -44,6 +52,7 @@ def run(static_graph_,
     :param dt:
     :param max_t:
     :param model:
+    :param gamma:
 
     :return: bool(all towns are infected), number of infected towns
     """
@@ -56,7 +65,8 @@ def run(static_graph_,
                           verbose=verbose,
                           dt=dt,
                           max_t=max_t,
-                          model=model)
+                          model=model,
+                          gamma=gamma)
 
     if pc_ is not None:
         print(f"Predicted pandemic threshold: {utils.predict_pandemic_threshold(pc, simulation)}")
@@ -86,7 +96,8 @@ def get_percolation_stats(static_graph_,
                           pc_=None,
                           verbose=False,
                           time_limit=None,
-                          model='SIR'):
+                          model='SIR',
+                          gamma=0.):
     results = {}
     print_estimate_p_th = pc_
 
@@ -107,7 +118,8 @@ def get_percolation_stats(static_graph_,
                                                  time_limit=time_limit,
                                                  dt=dt,
                                                  max_t=max_t,
-                                                 model=model)
+                                                 model=model,
+                                                 gamma=gamma)
             d["n_percolation"] += all_infected
             d["avg_infected"] += n_infected_towns / n_runs
             print_estimate_p_th = None
@@ -120,7 +132,7 @@ if __name__ == '__main__':
     # Get static graph
     static_graph, v_init, pc = utils.get_graph(graph_name=args.graph, dim=args.dim, k=args.k)
 
-    p_array = np.linspace(pc / 2, pc * 15, 30)
+    p_array = np.linspace(0.001, 0.02, 30)
     get_percolation_stats(static_graph, v_init, p_array,
                           time_limit=240, dt=0.002, max_t=5e2, n_runs=20, pc_=pc, save_to=args.save_to,
-                          model=args.model)
+                          model=args.model, gamma=args.gamma)

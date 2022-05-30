@@ -12,7 +12,7 @@ def get_graph(graph_name, dim, k=None):
     """
     if graph_name == "square_lattice":
         v_init = (dim + 1) // 2
-        return nx.grid_2d_graph(dim, dim), v_init, 0.5
+        return nx.grid_2d_graph(dim, dim), (v_init, v_init), 0.5
     elif graph_name == "1d_array":
         return nx.grid_graph(dim=dim), 0, 1
     elif graph_name == "cayley_tree":

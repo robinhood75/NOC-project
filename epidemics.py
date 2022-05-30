@@ -129,6 +129,9 @@ class Epidemic:
 
         sol = odeint(dydt, y0, t_array)
 
+        if model == 'SIS':
+            sol = np.concatenate([sol, np.zeros((sol.shape[0], 1))], axis=1)
+
         return sol
 
     @property
