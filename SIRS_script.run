@@ -18,6 +18,6 @@ source ~/venvs/noc_project/bin/activate
 
 echo Launching script
 
-srun python -u main.py --case SIRS
+srun python -u main.py --model SIRS --dim 26 --save_to SIRS.json --gamma 0.5
 
 echo Run Done
