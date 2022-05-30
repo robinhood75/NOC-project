@@ -134,7 +134,7 @@ if __name__ == '__main__':
     # Get static graph
     static_graph, v_init, pc = utils.get_graph(graph_name=args.graph, dim=args.dim, k=args.k)
 
-    p_array = np.linspace(0.001, 0.02, args.n_p_values)
+    p_array = np.linspace(0.001, 0.02, args.nb_p_values)
     get_percolation_stats(static_graph, v_init, p_array,
                           time_limit=240, dt=0.002, max_t=args.t_max, n_runs=20, pc_=pc, save_to=args.save_to,
                           model=args.model, gamma=args.gamma)
