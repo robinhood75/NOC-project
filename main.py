@@ -4,6 +4,17 @@ from epidemics import Epidemic
 import numpy as np
 import utils
 import time
+import argparse
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--dim', type=int, help='Dim of the graph')
+parser.add_argument('--model', type=str, help='"SIR", "SIS" or "SIRS"', default='SIR')
+parser.add_argument('--graph', type=str, help='"square_lattice", "1d_array", "cayley_tree.json"',
+                    default="square_lattice")
+parser.add_argument('--save_to', type=str, help='Save results in this file (json)', default="results.json")
+parser.add_argument('--k', type=int, help='Parameter k if graph is a Cayley tree', default=None)
+args = parser.parse_args()
 
 
 def run(static_graph_,
@@ -16,7 +27,8 @@ def run(static_graph_,
         pc_=None,
         time_limit=None,
         dt=None,
-        max_t=None):
+        max_t=None,
+        model='SIR'):
     """
     Runs the simulation until it reaches max_t or every town gets infected.
 
@@ -31,6 +43,7 @@ def run(static_graph_,
     :param time_limit: include a time limit for the simulation. If simulation time > time_limit, stop simulation
     :param dt:
     :param max_t:
+    :param model:
 
     :return: bool(all towns are infected), number of infected towns
     """
@@ -42,7 +55,8 @@ def run(static_graph_,
                           mu=mu,
                           verbose=verbose,
                           dt=dt,
-                          max_t=max_t)
+                          max_t=max_t,
+                          model=model)
 
     if pc_ is not None:
         print(f"Predicted pandemic threshold: {utils.predict_pandemic_threshold(pc, simulation)}")
@@ -71,7 +85,8 @@ def get_percolation_stats(static_graph_,
                           max_t=None,
                           pc_=None,
                           verbose=False,
-                          time_limit=None):
+                          time_limit=None,
+                          model='SIR'):
     results = {}
     print_estimate_p_th = pc_
 
@@ -91,7 +106,8 @@ def get_percolation_stats(static_graph_,
                                                  verbose=verbose,
                                                  time_limit=time_limit,
                                                  dt=dt,
-                                                 max_t=max_t)
+                                                 max_t=max_t,
+                                                 model=model)
             d["n_percolation"] += all_infected
             d["avg_infected"] += n_infected_towns / n_runs
             print_estimate_p_th = None
@@ -102,10 +118,9 @@ def get_percolation_stats(static_graph_,
 
 if __name__ == '__main__':
     # Get static graph
-    dim = 1000
-    static_graph, pc = utils.get_graph(graph_name="cayley_tree", dim=dim, k=3)
-    v_init = 0
+    static_graph, v_init, pc = utils.get_graph(graph_name=args.graph, dim=args.dim, k=args.k)
 
-    p_array = np.linspace(0.001, 0.02, 30)
+    p_array = np.linspace(pc / 2, pc * 15, 30)
     get_percolation_stats(static_graph, v_init, p_array,
-                          time_limit=240, dt=0.002, max_t=5e2, n_runs=20, pc_=pc, save_to=r"cayley_tree")
+                          time_limit=240, dt=0.002, max_t=5e2, n_runs=20, pc_=pc, save_to=args.save_to,
+                          model=args.model)

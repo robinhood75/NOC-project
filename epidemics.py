@@ -13,7 +13,8 @@ class Epidemic:
                  dt=0.01,
                  max_t=1e3,
                  gamma=0,
-                 verbose=True):
+                 verbose=True,
+                 model='SIR'):
         """
         :param static_graph: instance of nx.Graph
         :param n: population
@@ -23,6 +24,7 @@ class Epidemic:
         :param dt: discrete time basic unit. Default 0.001
         :param max_t: max simulation time
         :param gamma: optional rate
+        :param model: 'SIR', 'SIS' or 'SIRS'
         """
         # Immutable attributes
         self.static_graph = static_graph
@@ -32,8 +34,9 @@ class Epidemic:
         self.dt = dt
         self.max_t = max_t
         self.gamma = gamma
-        self.sir_values = Epidemic.get_sir_values(np.arange(0, max_t, dt), lambda_, mu, n, gamma=gamma)
+        self.sir_values = Epidemic.get_model_values(np.arange(0, max_t, dt), lambda_, mu, n, gamma=gamma, model=model)
         self.verbose = verbose
+        self.model = model
 
         # Mutable attributes
         self.dynamic_graph = nx.Graph()
@@ -103,15 +106,26 @@ class Epidemic:
         return ret
 
     @staticmethod
-    def get_sir_values(t_array, lambda_, mu, n, gamma=0):
+    def get_model_values(t_array, lambda_, mu, n, gamma=0, model='SIR'):
         """
         :return: array of size len(t_array) * 3 with S, I, R values for each time step
         """
-        def dydt(y, t):
-            s, i, r = y
-            tmp = lambda_ / n * s * i
-            return [- tmp + gamma * r, tmp - mu * i, mu * i - gamma * r]
-        y0 = [n - 1, 1, 0]
+        if model == 'SIS':
+            def dydt(y, t):
+                s, i = y
+                tmp = lambda_ / n * s * i - mu * i
+                return [- tmp, tmp]
+            y0 = [n - 1, 1]
+
+        elif model == 'SIR' or model == 'SIRS':
+            def dydt(y, t):
+                s, i, r = y
+                tmp = lambda_ / n * s * i
+                return [- tmp + gamma * r, tmp - mu * i, mu * i - gamma * r]
+            y0 = [n - 1, 1, 0]
+
+        else:
+            raise ValueError(f"Unknown model {model}")
 
         sol = odeint(dydt, y0, t_array)
 
